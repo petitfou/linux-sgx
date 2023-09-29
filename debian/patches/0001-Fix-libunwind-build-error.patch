@@ -1,0 +1,29 @@
+From 49b939b863beef8471cc7223a3f2754fa472ae93 Mon Sep 17 00:00:00 2001
+From: Hector Cao <hector.cao@canonical.com>
+Date: Fri, 22 Sep 2023 14:37:26 +0000
+Subject: [PATCH] Fix libunwind build error
+
+The configuration script failed because it cannot compile the sample program
+Te sample program  make use of FILE* but CPPFLAGS contains include pointing
+to a folder that contains stdio.h that does not offer FILE type
+---
+ sdk/cpprt/linux/libunwind/autogen.sh | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sdk/cpprt/linux/libunwind/autogen.sh b/sdk/cpprt/linux/libunwind/autogen.sh
+index 9b0d8d1..aaa7b62 100755
+--- a/sdk/cpprt/linux/libunwind/autogen.sh
++++ b/sdk/cpprt/linux/libunwind/autogen.sh
+@@ -11,6 +11,9 @@ CFLAGS="$CFLAGS -std=c99 -fno-builtin -DHAVE_SGX=1 -fPIC -DUNW_LOCAL_ONLY -fdebu
+ # Remove duplicated compiler options and filter out `-nostdinc'
+ CFLAGS=`echo $CFLAGS | tr ' ' '\n' | grep -v nostdinc | tr '\n' ' '`
+ export CFLAGS
++# Remove Include to common/inc/tlibc because it contains stdio.h and will break
++# the compiler check (compile program that uses FILE* in stdio.h)
++CPPFLAGS=`echo $CPPFLAGS | tr ' ' '\n' | grep -v common/inc/tlibc | tr '\n' ' '`
+ 
+ #Insert following codes into configure after add "-mfunction-return=thunk-extern -mindirect-branch-register" option, Or the "checking whether the C compiler works..." check will fail
+ #Insert following codes into configure after add "-mfunction-return=thunk-extern -mindirect-branch-register" option, Or the "checking whether we are cross compiling... " check will fail
+-- 
+2.40.1
+

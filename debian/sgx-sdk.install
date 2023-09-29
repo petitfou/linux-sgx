@@ -1,0 +1,8 @@
+debian/sdk/sgxsdk/buildenv.mk usr/lib/sgx-sdk/
+debian/sdk/sgxsdk/environment usr/lib/sgx-sdk/
+debian/sdk/sgxsdk/lib64/ usr/lib/sgx-sdk/
+debian/sdk/sgxsdk/include/ usr/lib/sgx-sdk/
+debian/sdk/sgxsdk/licenses/ usr/lib/sgx-sdk/
+debian/sdk/sgxsdk/bin/ usr/lib/sgx-sdk/
+debian/sdk/sgxsdk/pkgconfig/ usr/lib/sgx-sdk/
+debian/sdk/sgxsdk/sdk_libs/ usr/lib/sgx-sdk/

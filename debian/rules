@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+include /usr/share/dpkg/pkg-info.mk
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# linux-sgx will generate build folder
+# it will conflict with the debhelper build target
+
+.PHONY: build
+build:
+	make sdk_install_pkg
+	mkdir -p debian/sdk && cd debian/sdk && echo yes | ../../linux/installer/bin/sgx_linux_x64_sdk_$(DEB_VERSION_UPSTREAM).bin
+	sed -i -E "s/export SGX_SDK=(.*)/export SGX_SDK=\/usr\/lib\/sgx-sdk\//g" debian/sdk/sgxsdk/environment
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	echo "skip"
+
+override_dh_shlibdeps:
+	dh_shlibdeps -l $(LINUX_BUILD_DIR) --dpkg-shlibdeps-params=--ignore-missing-info

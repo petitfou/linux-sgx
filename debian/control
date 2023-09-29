@@ -1,0 +1,12 @@
+Source: linux-sgx
+Section: utils
+Priority: optional
+Maintainer: <hector.cao@canonical.com>
+Build-Depends: debhelper (>= 8.0.0), ocamlbuild, ocaml, autoconf, automake, binutils, libtool, cmake, libssl-dev, protobuf-compiler, libprotoc-dev, python3-dev, nasm
+Standards-Version: 3.9.4
+Homepage: https://github.com/intel/linux-sgx
+
+Package: sgx-sdk
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Intel(R) Software Guard Extensions Software Development Package
